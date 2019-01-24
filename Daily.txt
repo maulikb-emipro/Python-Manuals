@@ -1,0 +1,15 @@
+======================= Today's Update ======================
+-> Configured eclipse for odoo.
+-> Find the quantity for multiplying the weight for total weight.
+-> Made compute method for carrier charges for same weight.
+-> Tried to calculate charge for different weight entries.
+-> Searched and Read Backup commands of postgres.
+-> Read about restoring database, exporting and importing only table and its data.
+-> Wrote a file for backup and restoring database And import and export of table commands.
+-> Checked Backup, Restore and Import of table data in PGAdmin.
+-> Checked Import and Export from odoo's tree view.
+-> Checked for issue in importing M2o fields.
+-> Checked all points done for any issue till now.
+
+Please increase hours.
+Reason : 
