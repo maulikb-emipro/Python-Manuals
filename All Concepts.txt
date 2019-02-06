@@ -1,0 +1,188 @@
+Many2many : 1.comodel	2.new_model	3.column1	4.column2	5.string
+
+=================================================================================================================================================
+
+related : field = fields.float(related="product_id.weight",string="Weight")
+	There is a field product_id which is connected with a relation.
+	We can fetch its weight using related attribute.
+	Both must have same datatype.
+
+=================================================================================================================================================
+
+reference : 1.selection	2.string
+	This field is used when we want to select a model from selection and
+	it opens other selection with all records of selected model.
+	In database, it stores both - model name and record id.
+	Displays only record id.
+
+IMP Note : "Always remember to capitalize first letter of Datatype in model."
+
+In compute method, loop self for multiple records.
+	It expects singleton record for computing.
+
+=================================================================================================================================================
+
+track_visibility : It track activity of data.
+	It stores message into mail_message model.
+	It stores field's changing values into mail_tracking_value.
+
+=================================================================================================================================================
+
+ir.sequence : This model is used to make a sequence of records name.
+
+<record id="lead_sequence" model="ir.sequence">
+	<field name="name">Lead Number Sequence</field>
+	<field name="code">lead.carrier.charges.ept</field>
+	<field name="prefix">LC/</field>
+	<field name="padding">3</field>
+	<field name="number_increment">1</field>
+	<field name="number_next">1</field>
+</record>
+
+=================================================================================================================================================
+
+ir. cron : This model is used for making crons.
+		
+<!-- Cron of making Excel file and returning i	t. -->
+<record id="report_cron" model="ir.cron">
+	<field name="name">Report</field>
+	<field name="active" eval="False"/>
+	<field name="user_id" ref="base.user_root"/>
+	<field name="interval_number">1</field>
+	<field name="interval_type">days</field>
+	<field name="numbercall">-1</field>
+	<!-- <field name="nextcall">2019-01-25 04:42:50</field> -->
+	<field name="model_id" ref="model_crm_lead"/>
+	<field name="state">code</field>
+	<field name="code">model.generate_excel_report()</field>
+</record>
+
+=================================================================================================================================================
+
+Create Excel Report
+
+@api.multi
+def generate_excel_report(self):
+	"""
+	create report in excel.
+	"""
+	workbook = xlwt.Workbook()
+	sheet = workbook.add_sheet("CRM Report")
+
+	row = 0
+	col = 0
+	headers_list = ['id', 'name', 'description']
+	for col, header in enumerate(headers_list):
+	    sheet.write(row, col, header)
+
+	filepointer = BytesIO()
+	workbook.save(filepointer)
+	filepointer.seek(0)
+	report = base64.encodebytes(filepointer.read())
+	filepointer.close()
+
+	self.write({'file':report, 'file_name':'crm_report.xlsx'})
+
+	return {
+	    "type": "ir.actions.act_url",
+	    "url": "/web/content?model=crm.lead&field=file&download=true&filename_field=file_name&id=%s" % (self.id),
+	    "target": "new",
+	    }
+
+=================================================================================================================================================
+
+Write data in Relational fields:
+
+One2many and Many2many use a special “commands” format to manipulate the set of records stored in/associated with the field.
+
+This format is a list of triplets executed sequentially, where each triplet is a command to execute on the set of records. Not all commands apply in all situations. Possible commands are:
+
+(0, _, values)
+adds a new record created from the provided value dict.
+(1, id, values)
+updates an existing record of id with the values in values. Can not be used in create().
+(2, id, _)
+removes the record of id from the set, then deletes it (from the database). Can not be used in create().
+(3, id, _)
+removes the record of id from the set, but does not delete it. Can not be used on One2many. Can not be used in create().
+(4, id, _)
+adds an existing record of id to the set. Can not be used on One2many.
+(5, _, _)
+removes all records from the set, equivalent to using the command 3 on every record explicitly. Can not be used on One2many. Can not be used in create().
+(6, _, ids)
+replaces all existing records in the set by the ids list, equivalent to using the command 5 followed by a command 4 for each id in ids.
+
+Values marked as _ in the list above are ignored and can be anything, generally 0 or False.
+
+https://www.odoo.com/documentation/12.0/reference/orm.html#model-reference
+
+=================================================================================================================================================
+
+QWeb Report : 
+
+Paper formats are records of report.paperformat.
+
+<record id="paperformat_frenchcheck" model="report.paperformat">
+    <field name="name">French Bank Check</field>
+    <field name="default" eval="True"/>
+    <field name="format">custom</field>
+    <field name="page_height">80</field>
+    <field name="page_width">175</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">3</field>
+    <field name="margin_bottom">3</field>
+    <field name="margin_left">3</field>
+    <field name="margin_right">3</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">3</field>
+    <field name="dpi">80</field>
+</record>
+
+Custom Reports : 
+
+The report model has a default get_html function that looks for a model 
+named report.module.report_name. If it exists, it will use it to call the QWeb 
+engine; otherwise a generic function will be used. If you wish to customize your 
+reports by including more things in the template (like records of others models, 
+for example), you can define this model, overwrite the function render_html and 
+pass objects in the docargs dictionary:
+
+class ParticularReport(models.AbstractModel):
+    _name = 'report.module.report_name'
+    @api.model
+    def render_html(self, docids, data=None):
+        report_obj = self.env['report']
+        report = report_obj._get_report_from_name('module.report_name')
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': report.model,
+            'docs': self,
+        }
+        return report_obj.render('module.report_name', docargs)
+
+Action for Report : 
+
+<report
+    id="account_invoices"
+    model="account.invoice"
+    string="Invoices"
+    report_type="qweb-pdf"
+    name="account.report_invoice"
+    file="account.report_invoice"
+    attachment_use="True"
+    attachment="(object.state in ('open','paid')) and
+        ('INV'+(object.number or '').replace('/','')+'.pdf')"
+/>
+
+=================================================================================================================================================
+
+Search defaults
+Search fields and filters can be configured through the action’s context using search_default_name keys. For fields, the value should be the value to set in the field, for filters it’s a boolean value. For instance, assuming foo is a field and bar is a filter an action context of:
+
+{
+  'search_default_foo': 'acro',
+  'search_default_bar': 1
+}
+will automatically enable the bar filter and search the foo field for acro.
+
+=================================================================================================================================================
