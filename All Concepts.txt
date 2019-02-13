@@ -186,3 +186,55 @@ Search fields and filters can be configured through the action’s context using
 will automatically enable the bar filter and search the foo field for acro.
 
 =================================================================================================================================================
+
+Marketplace and E-Commerce : 
+
+A marketplace is an e-commerce website. However, not all e-commerce websites are marketplaces.
+
+#1 Marketing approach and targeting
+#2 Scalability
+#3 Larger inventory
+#4 Time and Money
+#5 A business of volume
+#6 Trend indicators
+#7 Engaged audience
+#8 Trust
+#9 Technical aspects
+
+=================================================================================================================================================
+
+Install Wordpress, WooCommerce and Test it's API in Python and Postman: 
+
+WordPress is a PHP-based application.
+
+There is a documentation regarding this topics.
+
+=================================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
