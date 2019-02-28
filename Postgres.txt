@@ -2,6 +2,10 @@
 
 pg_dump dbname > filename.txt
 
+***From other System
+
+ssh emipro@192.168.0.108 "pg_dump -U postgres -h localhost -C --column-inserts -d database_name" >> file.sql
+
 (It can be any file format)
 
 ***To Specify User

@@ -211,9 +211,21 @@ There is a documentation regarding this topics.
 
 =================================================================================================================================================
 
+Testing Mail Credentials : 
+
+testingemipro@
+
+emipro@123
+
+Incoming Mail Server for Gmail : 
+
+Server Name	imap.gmail.com
+Port		993
+SSL/TLS		True
 
 
-
+data[0][1].find('>',data[0][1].find('https://'))
+data[0][1][4533:4642]
 
 
 
