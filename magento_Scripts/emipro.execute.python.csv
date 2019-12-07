@@ -1,0 +1,16 @@
+"name","code"
+"Remove constraint","query=""alter table magento_product_category drop constraint magento_product_category_magento_img_uniq;""
+
+result=self._cr.execute(query)"
+"Changing Import product run time.","from datetime import datetime,timedelta
+from pytz import timezone
+
+time=5
+current=datetime.now()
+for i in range(391,449):
+    cron=self.env['ir.cron'].browse(i)
+    cron.write({'active':True,'nextcall':current+timedelta(minutes=time),'numbercall':1})
+    time+=5
+    result=cron.nextcall
+
+"

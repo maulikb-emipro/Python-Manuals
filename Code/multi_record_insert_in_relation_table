@@ -1,0 +1,5 @@
+﻿SELECT * from product_stock_pick_suggestion where session_id=55
+
+INSERT INTO product_stock_pick_suggestion_stock_move_line_rel values(306,4439),(307,4438),(308,4436),(309,4437),(309,4597),(310,4435)
+
+SELECT * from product_stock_pick_suggestion_stock_move_line_rel

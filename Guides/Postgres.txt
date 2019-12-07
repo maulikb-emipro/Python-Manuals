@@ -1,0 +1,50 @@
+***To Backup a database:
+
+pg_dump dbname > filename.txt
+
+***From other System
+
+ssh emipro@192.168.0.108 "pg_dump -U postgres -h localhost -C --column-inserts -d database_name" >> file.sql
+
+(It can be any file format)
+
+***To Specify User
+
+pg_dump -U postgres dbname > filename
+
+
+***To Restore it:
+
+psql dbname < filename
+
+
+***To Backup all databases:
+
+pg_dumpall > filename
+
+***To Restore all dumped by dumpall:
+
+psql -f filename username
+
+
+***For Large databases:
+
+pg_dump dbname | gzip > filename.gz
+
+***To Restore it:
+
+gunzip -c filename.gz | psql dbname
+
+
+***To Export a table:
+
+pg_dump --data-only(or -a) -t tablename dbname1 > filename
+
+***To Import table:
+
+psql dbname2 < filename
+
+
+*** To Export table from full database dump:
+
+pg_restore --data-only -t tablename fulldumpfile > tablefile

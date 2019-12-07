@@ -1,0 +1,7 @@
+Ubuntu LivePatch
+
+sudo snap install canonical-livepatch
+
+sudo canonical-livepatch enable 
+
+k=7f09855b68f645729e8f454939d91d1f
