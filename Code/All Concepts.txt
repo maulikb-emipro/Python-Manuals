@@ -205,7 +205,6 @@ A marketplace is an e-commerce website. However, not all e-commerce websites are
 
 Install Wordpress, WooCommerce and Test it's API in Python and Postman: 
 
-WordPress is a PHP-based application.
 
 There is a documentation regarding this topics.
 
@@ -214,8 +213,9 @@ There is a documentation regarding this topics.
 Testing Mail Credentials : 
 
 testingemipro@
-
 emipro@123
+
+smtp.gmail.com
 
 Incoming Mail Server for Gmail : 
 
@@ -223,10 +223,9 @@ Server Name	imap.gmail.com
 Port		993
 SSL/TLS		True
 
+=================================================================================================================================================
 
-
-
-
+getattr(self, "get_order_data_%s" % (woo_instance.woo_version.replace("/", "_")))(params, woo_instance)
 
 
 

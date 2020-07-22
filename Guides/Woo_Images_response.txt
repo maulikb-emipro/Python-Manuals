@@ -1,0 +1,16 @@
+
+
+Basic Structure
+=========================
+Variant will have always 1 image.
+Template has 1 main and more then one gallery images.
+
+For template
+=========================
+Always the first one will be the main image.(No more position attribute)
+It will not contain the variant images.
+
+For variant
+=========================
+It will have only 1 image.
+If image is not set, then in response it will send the template main image data.
